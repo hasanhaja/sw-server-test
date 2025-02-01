@@ -1,4 +1,4 @@
-const VERSION = "0.0.2";
+const VERSION = "0.0.1";
 const STATIC_CACHE_NAME = `static-cache_${VERSION}`;
 
 // TODO Cache manifest etc, but not service worker. Let the browser handle that.
@@ -58,6 +58,18 @@ self.addEventListener("fetch", (e) => {
   } else if (path === "/kick") {
     const data = { message: "Hello from SW for /kick" };
     const res = new Response(JSON.stringify(data), { status: 200, statusText: "OK" });
+    e.respondWith(res);
+  } else if (path === "/content") {
+    const content = `
+      <section>
+        <h2>Server content</h2>
+        <p>This content was generated on the service worker pretending to be the real server.</p>
+      </section>
+    `;
+    const headers = new Headers();
+    headers.append("Content-Type", "text/html");
+
+    const res = new Response(content, { status: 200, statusText: "OK", headers });
     e.respondWith(res);
   }
 });

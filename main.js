@@ -23,12 +23,22 @@ const App = {
 
 document.addEventListener("DOMContentLoaded", async () => await App.init());
 
-const button = document.getElementById("requester");
-const output = document.getElementById("result");
+const jsonButton = document.getElementById("json-requester");
+const jsonOutput = document.getElementById("json-result");
 
-button.addEventListener("click", async () => {
+const htmlButton = document.getElementById("html-requester");
+const htmlOutput = document.getElementById("html-result");
+
+jsonButton.addEventListener("click", async () => {
   const res = await fetch("/kick");
   const data = await res.json();
 
-  output.textContent = data.message;
+  jsonOutput.textContent = data.message;
+});
+
+htmlButton.addEventListener("click", async () => {
+  const res = await fetch("/content");
+  const content = await res.text();
+
+  htmlOutput.innerHTML = content;
 });
